@@ -1,0 +1,45 @@
+[gd_scene format=3 uid="uid://djwewioeynbpj"]
+
+[ext_resource type="PackedScene" uid="uid://c462gam45udq7" path="res://scenes/limits.tscn" id="1_3knfh"]
+[ext_resource type="Script" uid="uid://bro02ms6b2ntt" path="res://scenes/game_container.gd" id="1_hhqt2"]
+[ext_resource type="PackedScene" uid="uid://bkgsgplmdrdk4" path="res://scenes/ball.tscn" id="2_3knfh"]
+[ext_resource type="Texture2D" uid="uid://bv54h61cdibe0" path="res://sprites/background.png" id="2_hhqt2"]
+[ext_resource type="PackedScene" uid="uid://b28e5xojgtupk" path="res://scenes/rebounds.tscn" id="4_af2yf"]
+[ext_resource type="PackedScene" uid="uid://x0b1542mt1ap" path="res://scenes/fake_player.tscn" id="5_w821k"]
+[ext_resource type="PackedScene" uid="uid://vnmc8vmw4pqg" path="res://scenes/death_zone.tscn" id="7_3knfh"]
+
+[node name="GameContainer" type="Node2D" unique_id=275070250]
+script = ExtResource("1_hhqt2")
+ball_scene = ExtResource("2_3knfh")
+
+[node name="Limits" parent="." unique_id=686592245 instance=ExtResource("1_3knfh")]
+
+[node name="Background" type="Sprite2D" parent="." unique_id=1031573151]
+position = Vector2(223.99998, 120)
+scale = Vector2(28, 15)
+texture = ExtResource("2_hhqt2")
+
+[node name="Rebounds" parent="." unique_id=40427593 instance=ExtResource("4_af2yf")]
+
+[node name="FakePlayer" parent="." unique_id=115205603 instance=ExtResource("5_w821k")]
+
+[node name="DeathZone" parent="." unique_id=864519240 instance=ExtResource("7_3knfh")]
+
+[node name="PlayerPosition" type="Marker2D" parent="." unique_id=1769634484]
+position = Vector2(16, 128)
+
+[node name="BallPosition" type="Marker2D" parent="." unique_id=1882607523]
+position = Vector2(224, 128)
+
+[node name="MultiplayerSpawnerPlayers" type="MultiplayerSpawner" parent="." unique_id=1500029665]
+_spawnable_scenes = PackedStringArray("uid://qet1tfjqc86l")
+spawn_path = NodePath("..")
+
+[node name="MultiplayerSpawnerBalls" type="MultiplayerSpawner" parent="." unique_id=168415407]
+_spawnable_scenes = PackedStringArray("uid://bkgsgplmdrdk4")
+spawn_path = NodePath("..")
+
+[node name="Timer" type="Timer" parent="." unique_id=1741983368]
+wait_time = 10.0
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

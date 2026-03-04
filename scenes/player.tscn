@@ -1,0 +1,43 @@
+[gd_scene format=3 uid="uid://qet1tfjqc86l"]
+
+[ext_resource type="Texture2D" uid="uid://cb5ly240smy5i" path="res://sprites/player.png" id="1_3vyb7"]
+[ext_resource type="Script" uid="uid://d1gqwdm08kvtp" path="res://scenes/player.gd" id="1_g2els"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g2els"]
+size = Vector2(16, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qhqgy"]
+size = Vector2(8, 32)
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_g2els"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:modulate")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+
+[node name="Player" type="CharacterBody2D" unique_id=1495343981 groups=["player"]]
+collision_mask = 4
+script = ExtResource("1_g2els")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1613503248]
+position = Vector2(-1.589458e-07, -7.1525574e-07)
+scale = Vector2(5.3333335, 4)
+texture = ExtResource("1_3vyb7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=676579281]
+shape = SubResource("RectangleShape2D_g2els")
+
+[node name="Rebound" type="Area2D" parent="." unique_id=933679042]
+collision_layer = 16
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Rebound" unique_id=928243331]
+position = Vector2(4, 0)
+shape = SubResource("RectangleShape2D_qhqgy")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=296108870]
+replication_config = SubResource("SceneReplicationConfig_g2els")
+
+[connection signal="body_entered" from="Rebound" to="." method="_on_rebound_body_entered"]

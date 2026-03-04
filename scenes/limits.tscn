@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://c462gam45udq7"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_c1wvg"]
+size = Vector2(448, 16)
+
+[node name="Limits" type="StaticBody2D" unique_id=686592245 groups=["wall"]]
+collision_layer = 4
+
+[node name="Up" type="CollisionShape2D" parent="." unique_id=852575747 groups=["wall"]]
+position = Vector2(224, -8)
+shape = SubResource("RectangleShape2D_c1wvg")
+
+[node name="Down" type="CollisionShape2D" parent="." unique_id=1720040773 groups=["wall"]]
+position = Vector2(224, 248)
+shape = SubResource("RectangleShape2D_c1wvg")

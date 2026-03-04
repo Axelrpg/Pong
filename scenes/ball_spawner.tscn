@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://ddwgy5ar1cxm2"]
+
+[ext_resource type="Script" uid="uid://isxc3ckn3atk" path="res://scenes/ball_spawner.gd" id="1_vml06"]
+[ext_resource type="PackedScene" uid="uid://bkgsgplmdrdk4" path="res://scenes/ball.tscn" id="2_qkrhk"]
+
+[node name="BallSpawner" type="Marker2D" unique_id=961648355]
+script = ExtResource("1_vml06")
+enemy_scene = ExtResource("2_qkrhk")
+
+[node name="Timer" type="Timer" parent="." unique_id=1891439357]
+wait_time = 10.0
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

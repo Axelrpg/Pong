@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://b28e5xojgtupk"]
+
+[ext_resource type="Script" uid="uid://cb8yy13t582hy" path="res://scenes/rebounds.gd" id="1_tly48"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_y1nfb"]
+size = Vector2(448, 8)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ujd6e"]
+size = Vector2(448, 8)
+
+[node name="Rebounds" type="Area2D" unique_id=40427593]
+collision_layer = 8
+collision_mask = 2
+script = ExtResource("1_tly48")
+
+[node name="Up" type="CollisionShape2D" parent="." unique_id=188324646]
+position = Vector2(224, -4)
+shape = SubResource("RectangleShape2D_y1nfb")
+
+[node name="Down" type="CollisionShape2D" parent="." unique_id=912662132]
+position = Vector2(224, 244)
+shape = SubResource("RectangleShape2D_ujd6e")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://bkgsgplmdrdk4"]
+
+[ext_resource type="Texture2D" uid="uid://cqxdhwvj47mjc" path="res://sprites/ball.png" id="1_7s4qf"]
+[ext_resource type="Script" uid="uid://pxat0lyce4hb" path="res://scenes/ball.gd" id="1_cxlvu"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cxlvu"]
+size = Vector2(16, 16)
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_cxlvu"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+
+[node name="Ball" type="CharacterBody2D" unique_id=892277910 groups=["ball"]]
+collision_layer = 2
+collision_mask = 24
+script = ExtResource("1_cxlvu")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=455703319]
+position = Vector2(2.3841858e-07, -2.3841858e-07)
+scale = Vector2(2, 2)
+texture = ExtResource("1_7s4qf")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1033526378]
+shape = SubResource("RectangleShape2D_cxlvu")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=839977677]
+replication_config = SubResource("SceneReplicationConfig_cxlvu")
