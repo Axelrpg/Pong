@@ -3,7 +3,7 @@ extends Node
 @export var player_scene: PackedScene
 @export var game_container: Node2D
 
-const ip = "10.8.0.1"
+const ip = "127.0.0.1"
 const port = 7777
 
 func _ready() -> void:
@@ -11,7 +11,7 @@ func _ready() -> void:
 	
 	if "--server" in OS.get_cmdline_args():
 		start_server()
-	elif "--client" in OS.get_cmdline_args():
+	else:
 		get_tree().create_timer(1)
 		start_client()
 
@@ -24,7 +24,7 @@ func start_server():
 	multiplayer.peer_connected.connect(_on_peer_connected)
 	multiplayer.peer_disconnected.connect(_on_peer_disconnected)
 	
-	print("Servidor escuchando en puerto", port)
+	print("Servidor escuchando en puerto ", port)
 
 func start_client():
 	get_window().title = "CLIENTE"
@@ -46,11 +46,15 @@ func _on_server_disconnected():
 	
 func _on_peer_connected(id: int) -> void:
 	if multiplayer.is_server():
-		print("Jugador conectado con ID:", id)
+		print("Jugador conectado con ID: ", id)
 		_spawn_player(id)
 
 func _on_peer_disconnected(id: int) -> void:
-	print("Jugador desconectado con ID:", id)
+	if multiplayer.is_server():
+		print("Jugador desconectado con ID: ", id)
+		var player_to_remove = game_container.get_node_or_null(str(id))
+		if player_to_remove:
+			player_to_remove.queue_free()
 	
 func _spawn_player(id: int) -> void:
 	var new_player = player_scene.instantiate()
