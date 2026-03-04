@@ -1,36 +1,37 @@
 extends Node2D
 
 @onready var game_container = $GameContainer
-@onready var death_zone = $"GameContainer/DeathZone"
-@onready var ball_count_label = $UI/Label
-@onready var timer = $GameContainer/Timer
+@onready var death_zone_left = $GameContainer/DeathZoneLeft
+@onready var death_zone_right = $GameContainer/DeathZoneRight
+@onready var left_score_label = $UI/HBoxContainer/LeftScoreLabel
+@onready var right_score_label = $UI/HBoxContainer/RightScoreLabel
 
-@export var game_over_scene : PackedScene
-
-@export var ball_count : int = 0:
+@export var left_score : int = 0:
 	set(value):
-		ball_count = value
+		left_score = value
 		if is_node_ready():
-			_update_label()
-
+			_update_left_score()
+			
+@export var right_score : int = 0:
+	set(value):
+		right_score = value
+		if is_node_ready():
+			_update_right_score()
+			
 func _ready() -> void:
-	if multiplayer.is_server():
-		death_zone.ball_removed.connect(remove_ball)
-		timer.start()
+	death_zone_left.add_score.connect(_add_score)
+	death_zone_right.add_score.connect(_add_score)
 
-func add_ball() -> void:
+func _add_score(side: int) -> void:
 	if multiplayer.is_server():
-		ball_count += 1
-	
-func remove_ball() -> void:
-	if multiplayer.is_server():
-		ball_count -= 1
+		match side:
+			0:
+				left_score += 1
+			1:
+				right_score += 1
 		
-func _update_label():
-	ball_count_label.text = str(ball_count)
-
-func _on_death_zone_game_over() -> void:
-	call_deferred("_change_to_game_over_scene")
-
-func _change_to_game_over_scene() -> void:
-	get_tree().change_scene_to_packed(game_over_scene)
+func _update_left_score():
+	left_score_label.text = str(left_score)
+	
+func _update_right_score():
+	right_score_label.text = str(right_score)

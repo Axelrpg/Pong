@@ -6,6 +6,8 @@ extends Node
 const ip = "127.0.0.1"
 const port = 7777
 
+var connected_players = {}
+
 func _ready() -> void:
 	randomize()
 	
@@ -46,8 +48,14 @@ func _on_server_disconnected():
 	
 func _on_peer_connected(id: int) -> void:
 	if multiplayer.is_server():
-		print("Jugador conectado con ID: ", id)
-		_spawn_player(id)
+		var player_index = connected_players.size()
+		connected_players[id] = player_index
+		
+		if connected_players.size() >= 3:
+			return
+		
+		_spawn_player(id, player_index)
+		print("Jugador conectado: ", id, " Es el número: ", player_index + 1)
 
 func _on_peer_disconnected(id: int) -> void:
 	if multiplayer.is_server():
@@ -56,7 +64,7 @@ func _on_peer_disconnected(id: int) -> void:
 		if player_to_remove:
 			player_to_remove.queue_free()
 	
-func _spawn_player(id: int) -> void:
+func _spawn_player(id: int, player_index: int) -> void:
 	var new_player = player_scene.instantiate()
 	new_player.name = str(id)
 	new_player.set_multiplayer_authority(id)
@@ -65,6 +73,13 @@ func _spawn_player(id: int) -> void:
 	new_player.modulate = random_color
 	
 	var initial_position: Vector2
-	initial_position = game_container.get_node("PlayerPosition").global_position
-	new_player.global_position = initial_position
+	match player_index:
+		0:
+			initial_position = game_container.get_node("PlayerPosition1").global_position
+			new_player.global_position = initial_position
+		1:
+			initial_position = game_container.get_node("PlayerPosition2").global_position
+			new_player.scale.x *= -1
+			new_player.global_position = initial_position
+	
 	game_container.add_child(new_player)

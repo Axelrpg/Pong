@@ -38,6 +38,6 @@ func invert_y_direction():
 	
 	speed_y *= -1
 	if (speed_y > 0):
-		speed_y += 5
+		speed_y += 1
 	else:
-		speed_y -= 5
+		speed_y -= 1
